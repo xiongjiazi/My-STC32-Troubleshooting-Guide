@@ -42,6 +42,4 @@ This repository documents an embedded mechatronic system based on the 8051/STC32
 ## 🔍 FAE Debugging & Case Studies
 
 For in-depth technical reports on RZ7899 SMD cold joint troubleshooting, physical workarounds for damaged motor terminals, and battery socket footprint jumpers, please refer to the following documentation:
-
-* 👉 **[View Complete Troubleshooting Log (Troubleshooting.md)](./Troubleshooting.md)**
-* 👉 **[View Selection & PCB Layout Pitfalls Guide (Wiki)](./Wiki/Selection-Guide.md)**
+To be determined
