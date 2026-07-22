@@ -1,3 +1,26 @@
+# 🤖 STC32 Multifunctional Line Tracking Robot
+
+A compact embedded robotic platform integrating
+mechanical structure design,
+PCB hardware development,
+embedded control,
+and FAE-style debugging.
+
+
+
+## Highlights
+
+✔ Mechanical structure design
+
+✔ STC32 embedded control
+
+✔ Custom PCB design
+
+✔ Motor driver debugging
+
+✔ Hardware failure analysis
+
+
 ## 🛠️ Case Study: Motor Unresponsiveness & RZ7899 Driver Debugging
 
  **Soldering & Debugging Guidelines:**
