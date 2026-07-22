@@ -1,68 +1,232 @@
 # 🤖 STC32 Multifunctional Line Tracking Robot
 
-A compact embedded robotic platform integrating
-mechanical structure design,
+A compact embedded robotic platform based on STC32G12K128,
+integrating mechanical structure design,
 PCB hardware development,
 embedded control,
-and FAE-style debugging.
+and engineering debugging.
+
+This project documents the complete development process,
+including component selection,
+PCB layout optimization,
+hardware assembly,
+and FAE-style troubleshooting.
 
 
+## Project Overview
 
-## Highlights
 
-✔ Mechanical structure design
+This project is a multifunctional mobile robot platform developed around
+STC32G12K128 MCU.
 
-✔ STC32 embedded control
+The goal is to build a compact robotic system integrating:
+
+- motion control
+- sensor acquisition
+- motor driving
+- hardware debugging
+
+Unlike a simple competition robot,
+this project focuses on engineering development workflow,
+including hardware selection,
+PCB design,
+assembly verification,
+and fault diagnosis.
+
+## Key Features
+
+
+### Motion System
+
+✔ Four-wheel motor drive system
+
+✔ RZ7899 H-bridge motor driver
+
+
+### Sensor System
+
+✔ Infrared line tracking
+
+✔ Ultrasonic obstacle detection
+
+✔ ADC battery voltage monitoring
+
+
+### Hardware Development
 
 ✔ Custom PCB design
 
-✔ Motor driver debugging
+✔ Component selection
 
-✔ Hardware failure analysis
+✔ Soldering and hardware debugging
 
 
-## 🛠️ Case Study: Motor Unresponsiveness & RZ7899 Driver Debugging
+              Battery
+                 |
+                 |
+          Power Management
+                 |
+                 |
+             STC32 MCU
+          /      |       \
+         /       |        \
+ Infrared    Ultrasonic   ADC
+ Sensor      Sensor       Battery
 
- **Soldering & Debugging Guidelines:**
- - **Header Pin Contact & Cold Joints:** When driving motors with SMD ICs (e.g., RZ7899), if the motor fails to respond after powering on, **do not replace the MCU blindly**. Always perform a "pin-by-pin sliding contact test" first to rule out cold solder joints.
- - **Soldering Ergonomics & Safety:** Use a lightweight, constant-temperature soldering iron paired with a compact fume extractor to ensure steady hand control during delicate SMD soldering while protecting respiratory health.
+                 |
+                 |
+            Motor Driver
+              RZ7899
 
----
+                 |
+              Motors
 
-### 🔍 FAE Field Troubleshooting Table
 
-| Fault Symptom | Step-by-Step Investigation | Root Cause | Solution & Workaround |
-| :--- | :--- | :--- | :--- |
-| **Motor completely unresponsive after code upload & power-on** | 1. Slid the motor terminal up and down along the header pins to test contact consistency.<br>2. Swapped in a spare motor for cross-validation.<br>3. Identified that only the bottom-right pin contact triggered a response. | **SMD Driver Pin Cold Joint:** Cold solder joints on the bottom pins of the RZ7899 driver IC caused unstable power delivery to the header pins. | Re-soldered the IC pins on the bottom layer of the PCB. Practiced on a spare board beforehand to ensure first-time soldering success. |
-| **Single-side (bottom-left) motor failed to run after soldering** | 1. Re-soldered the bottom pins (issue persisted).<br>2. Measured output voltage across the header pins; voltage was normal.<br>3. Tested the motor on a verified functional test board. | **Damaged Motor Terminal:** Soldering in tight physical space damaged the motor terminal, preventing conduction via flat surface contact. | Located a specific conductive physical angle on the damaged terminal. Used a mounting bracket to secure the motor's angle, firmly pressing the tip against the pin to achieve stable conduction. |
+## System Architecture
 
-# Multifunctional Line-Tracking & Obstacle-Avoidance Robot Based on STC32G12K128
-*(FAE Debugging & Hardware Design Record)*
+The system consists of four major modules:
 
-This repository documents an embedded mechatronic system based on the 8051/STC32 architecture. It features a complete record of hardware component selection, PCB layout anti-interference design, soldering and assembly debugging, as well as field-style FAE (Field Application Engineer) troubleshooting protocols.
+1. Control Unit
+2. Sensor Unit
+3. Motor Drive Unit
+4. Power Monitoring Unit
 
----
 
-## 🛠️ Hardware Architecture
+## Mechanical Design
 
-* **Microcontroller Unit (MCU):** STC32G12K128 Core Board (53 × 23 mm Compact Footprint)
-* **Motor Driver Module:** RZ7899 H-Bridge Motor Driver
-* **Sensor Suite:** Infrared Line-Tracking Module + Ultrasonic Ranging Module + ADC Voltage Divider for Battery Level Detection
-* **Audio-Visual Feedback:** 5V Active Buzzer Driver Circuit + LED Headlight Driver Circuit
 
----
+The mechanical design focuses on:
 
-## 📐 PCB Layout Guidelines & Anti-Interference Rules
+- compact electronic integration
+- component accessibility
+- modular assembly
 
-> [!WARNING]
-> **Critical PCB Layout Rules:**
-> 1. **Power Traces:** Maintain a minimum trace width of **35–40 mil** (or wider). **Never form closed loop paths** to prevent ground/power loops and severe EMI.
-> 2. **ADC Signal Protection:** Keep high-precision ADC voltage divider traces physically isolated from high-frequency switching lines and power routes. Minimize trace length to ensure sampling stability.
-> 3. **Ground Plane Management:** Clear all "Island Copper" (unconnected ground pour). Place GND stitching vias in continuous linear rows to eliminate airwires and stabilize the bottom ground plane.
 
----
+The robot structure was designed around
+the 53×23mm compact controller footprint,
+allowing easier PCB installation and maintenance.
 
-## 🔍 FAE Debugging & Case Studies
 
-For in-depth technical reports on RZ7899 SMD cold joint troubleshooting, physical workarounds for damaged motor terminals, and battery socket footprint jumpers, please refer to the following documentation:
-To be determined
+## Hardware Design
+
+
+### MCU
+
+STC32G12K128 core board
+
+
+### Motor Driver
+
+RZ7899 H-Bridge driver
+
+
+### PCB Design Considerations
+
+- Power trace width optimization
+- ADC signal isolation
+- Ground plane management
+- GND stitching vias
+
+
+## Firmware Architecture
+
+
+Firmware is responsible for:
+
+
+- motor control
+- sensor acquisition
+- decision logic
+- actuator control
+
+
+The firmware structure will be continuously optimized
+with future PID speed control and communication functions.
+
+
+## Engineering Debug Cases
+
+
+### Case 1: RZ7899 Motor Driver Failure
+
+
+Problem:
+
+Motor failed after firmware upload.
+
+
+Investigation:
+
+- checked motor replacement
+- tested header contact
+- inspected solder joints
+
+
+Root Cause:
+
+SMD soldering instability.
+
+
+Solution:
+
+Reworked solder joints and verified motor operation.
+
+
+## Test Results
+
+
+Current validation includes:
+
+✔ Motor operation test
+
+✔ PCB functional verification
+
+✔ Sensor response testing
+
+
+Detailed quantitative testing
+will be added after optimization.
+
+
+## Future Improvement
+
+
+Planned improvements:
+
+
+- Improve mechanical structure
+- Add PID motor speed control
+- Improve sensor filtering
+- Optimize PCB layout
+- Add wireless communication
+
+
+## Engineering Skills Demonstrated
+
+
+### Mechanical Engineering
+
+- Structural design thinking
+- Assembly optimization
+
+
+### Hardware Engineering
+
+- PCB layout
+- Component selection
+- Soldering
+- Debugging
+
+
+### Embedded Development
+
+- STC32 MCU
+- Sensor integration
+- Motor control
+
+
+### Engineering Practice
+
+- Failure analysis
+- Troubleshooting
+- Documentation
