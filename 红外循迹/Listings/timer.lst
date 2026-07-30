@@ -1,0 +1,113 @@
+C251 COMPILER V5.60.0,  timer                                                              30/07/26  17:05:13  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE timer
+OBJECT MODULE PLACED IN .\Objects\timer.obj
+COMPILER INVOKED BY: C:\Keil_v5\C251\BIN\C251.EXE HARDWARE\src\timer.c INTR2 BROWSE INCDIR(.\HARDWARE\inc) DEBUG PRINT(.
+                    -\Listings\timer.lst) TABS(2) OBJECT(.\Objects\timer.obj) 
+
+stmt  level    source
+
+    1          #include "timer.h"   
+    2           #include "hw.h"  
+    3          #include "motor.h" 
+    4          
+    5          uint16 Time_Count = 0; 
+    6          uint8 Time_Count_pwm = 0; 
+    7          uint8 PWM_Count = 40; //占空比
+    8          
+    9          
+   10          void Timer4Init(void)
+   11          {
+   12   1        T4T3M &= 0xBF;                  //定时器4设置为定时方式
+   13   1        T4T3M |= 0x20;                  //设置定时器4为1T模式
+   14   1        T4L = 0x90;                     //1T模式下初始装载值 
+   15   1        T4H = 0xE8;                     //1T模式下初始装载值 
+   16   1        IE2  |=  (1<<6);                //使能定时器4中断
+   17   1        T4T3M |= 0x80;                  //打开定时器4
+   18   1      } 
+   19          
+   20          
+   21          void timer4_int (void) interrupt 20
+   22          {
+   23   1          if(++Time_Count>=4000) //最长计时间 1s
+   24   1          {
+   25   2             Time_Count=0;
+   26   2          }  
+   27   1           if(++Time_Count_pwm>100)
+   28   1         {
+   29   2            Time_Count_pwm=0;
+   30   2         } 
+   31   1         if(Time_Count_pwm>=PWM_Count)//PWM调速
+   32   1         {
+   33   2            Car_Stop(); //置为低电平   
+   34   2           
+   35   2         }else{    
+   36   2           
+   37   2            Adjust_Pwm_data();//调节PWM
+   38   2         } 
+   39   1      } 
+   40          
+   41          
+   42          
+   43          
+   44          
+   45          
+   46          
+   47          
+   48          
+   49          
+   50          
+   51          
+   52          
+   53          
+   54          
+   55          
+   56          
+   57          
+   58          
+C251 COMPILER V5.60.0,  timer                                                              30/07/26  17:05:13  PAGE 2   
+
+   59          
+   60          
+   61          
+   62          
+   63          
+   64          
+   65          
+   66          
+   67          
+   68          
+   69          
+   70          
+   71          
+   72          
+   73          
+   74          
+   75          
+   76          
+   77          
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =       126     ------
+  ecode size           =    ------     ------
+  data size            =         4     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =    ------     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =    ------     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,206 @@
+C251 COMPILER V5.60.0,  main                                                               30/07/26  17:05:13  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE main
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C251\BIN\C251.EXE main.c INTR2 BROWSE INCDIR(.\HARDWARE\inc) DEBUG PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj) 
+
+stmt  level    source
+
+    1          #include <STC32G.H>
+    2          #include "intrins.h"
+    3          #include "delay.h"  
+    4          #include "motor.h" 
+    5          #include "timer.h"    
+    6          #include "uart1.h" 
+    7          #include "hw.h"  
+    8          #include "LED.h" 
+    9          
+   10          void main(void)
+   11          {
+   12   1         WTST = 0;  //设置程序指令延时参数，赋值为0可将CPU执行指令的速度设置为最快
+   13   1         EAXFR = 1; //扩展寄存器(XFR)访问使能
+   14   1         CKCON = 0; //提高访问XRAM速度
+   15   1         
+   16   1         Motor_Init_Port(); //电机初始化
+   17   1      
+   18   1         Timer4Init(); //定时器初始化,计数时间使用
+   19   1        
+   20   1         Uart1_Init(); //串口初始化 
+   21   1        
+   22   1         HW_Init_Port(); //红外端口
+   23   1        
+   24   1         LED_Init_Port(); //LED显示
+   25   1      
+   26   1        while (1)
+   27   1        {   
+   28   2            if(Get_HW_MR==1&&Get_HW_ML==1&&Get_HW_R==1&&Get_HW_L==1)
+   29   2             {   
+   30   3                 Car_State_number=7;  //停车
+   31   3               
+   32   3                 LED_ON();         //灯闪
+   33   3                 Delay100ms();
+   34   3                 LED_OFF();
+   35   3                 Delay100ms();
+   36   3      
+   37   3                 LED_ON();            //灯闪
+   38   3                 Delay100ms();
+   39   3                 LED_OFF();
+   40   3                 Delay100ms();
+   41   3               
+   42   3                 LED_ON();          //灯闪
+   43   3                 Delay100ms();
+   44   3                 LED_OFF();
+   45   3                 Delay100ms();
+   46   3               
+   47   3                 Car_State_number=1; 
+   48   3               
+   49   3                 PWM_Count=15;  
+   50   3                 Delay100ms(); //缓冲掉
+   51   3                 Delay100ms(); 
+   52   3             }else{
+   53   3          
+   54   3                          /******************状态一：直行状态****************************************/  
+   55   3                              //情况一：黑线在正中间，都没有识别到，直走
+   56   3                              if(Get_HW_L==0&&Get_HW_ML==0&&Get_HW_MR==0&&Get_HW_R==0)
+   57   3                              {
+   58   4                                Car_State_number=1; //慢速直走 
+C251 COMPILER V5.60.0,  main                                                               30/07/26  17:05:13  PAGE 2   
+
+   59   4                              }
+   60   3                              //情况二：中间两个识别到黑线，直走
+   61   3                              if(Get_HW_L==0&&Get_HW_ML==1&&Get_HW_MR==1&&Get_HW_R==0)
+   62   3                              {           
+   63   4                                while(1) //防止由于拐弯过大，要纠正回来
+   64   4                                {  
+   65   5                                  Car_State_number=1; //慢速直走 
+   66   5                                  if(Get_HW_MR==0||Get_HW_ML==0)
+   67   5                                  {  
+   68   6                                    break; //跳出循环
+   69   6                                  } 
+   70   5                                } 
+   71   4                              }
+   72   3                              //情况三：左中侧检测到，稍微左转后直走
+   73   3                              if(Get_HW_L==0&&Get_HW_ML==1&&Get_HW_MR==0&&Get_HW_R==0)// 慢左转
+   74   3                              {                 
+   75   4                                while(1) //防止由于拐弯过大，要纠正回来
+   76   4                                {  
+   77   5                                     Car_State_number=3;          
+   78   5                                  if(Get_HW_ML==0||Get_HW_MR==1||Get_HW_R==1)
+   79   5                                  {  
+   80   6                                    break; //跳出循环
+   81   6                                  } 
+   82   5                                } 
+   83   4                              }
+   84   3                              
+   85   3                              //情况四：右中侧检测到，稍微右转后直走
+   86   3                              if(Get_HW_L==0&&Get_HW_ML==0&&Get_HW_MR==1&&Get_HW_R==0)//慢右转
+   87   3                              {                 
+   88   4                                while(1) //防止由于拐弯过大，要纠正回来
+   89   4                                {  
+   90   5                                     Car_State_number=5; //慢右转
+   91   5                                  if(Get_HW_MR==0||Get_HW_ML==1||Get_HW_L==0)
+   92   5                                  {  
+   93   6                                    break; //跳出循环
+   94   6                                  } 
+   95   5                                } 
+   96   4                              } 
+   97   3                              
+   98   3                          /******************状态二：左转状态****************************************/    
+   99   3                              //情况一：左外侧检测到，大拐弯
+  100   3                              if(Get_HW_L==1&&Get_HW_ML==0&&Get_HW_MR==0&&Get_HW_R==0)//
+  101   3                              {                       
+  102   4                                while(1) //防止由于拐弯过大，要纠正回来
+  103   4                                {  
+  104   5                                    Car_State_number=4; //快速左转        
+  105   5                                  if(Get_HW_ML==1||Get_HW_MR==1||Get_HW_R==1)
+  106   5                                  {  
+  107   6                                    break; //跳出循环
+  108   6                                  } 
+  109   5                                } 
+  110   4                              }
+  111   3                              //情况二：左外测和左中测检测到，大拐弯
+  112   3                              if(Get_HW_L==1&&Get_HW_ML==1&&Get_HW_MR==0&&Get_HW_R==0)
+  113   3                              {                       
+  114   4                                while(1) //防止由于拐弯过大，要纠正回来
+  115   4                                {  
+  116   5                                     Car_State_number=4; //快速左转
+  117   5              
+  118   5                                  if(Get_HW_MR==1||Get_HW_R==1)
+  119   5                                  {  
+  120   6                                    break; //跳出循环
+  121   6                                  } 
+  122   5                                } 
+  123   4                              }
+  124   3                              
+C251 COMPILER V5.60.0,  main                                                               30/07/26  17:05:13  PAGE 3   
+
+  125   3                          /******************状态三：右转状态****************************************/            
+  126   3                              //右外侧检测到，大拐弯
+  127   3                              if(Get_HW_L==0&&Get_HW_ML==0&&Get_HW_MR==0&&Get_HW_R==1)
+  128   3                              {                                     
+  129   4                                while(1) //防止由于拐弯过大，要纠正回来
+  130   4                                {  
+  131   5                                  Car_State_number=6; //快速右转 
+  132   5      
+  133   5                                  if(Get_HW_MR==1||Get_HW_ML==1||Get_HW_L==1)
+  134   5                                  {  
+  135   6                                    break; //跳出循环
+  136   6                                  } 
+  137   5                                } 
+  138   4                              } 
+  139   3                              //右侧和右外侧检测到，大拐弯
+  140   3                              if(Get_HW_L==0&&Get_HW_ML==0&&Get_HW_MR==1&&Get_HW_R==1)
+  141   3                              {                                     
+  142   4                                while(1) //防止由于拐弯过大，要纠正回来
+  143   4                                {  
+  144   5                                  Car_State_number=6; //快速右转 
+  145   5      
+  146   5                                  if(Get_HW_ML==1||Get_HW_L==1)
+  147   5                                  {  
+  148   6                                    break; //跳出循环
+  149   6                                  } 
+  150   5                                } 
+  151   4                              } 
+  152   3                          /******************状态四：直角处理****************************************/            
+  153   3                              //右外侧检测到，大拐弯
+  154   3                              if(Get_HW_L==0&&Get_HW_ML==1&&Get_HW_MR==1&&Get_HW_R==1)
+  155   3                              {                                                                
+  156   4                                  while(1)
+  157   4                                  {
+  158   5                                      Car_State_number=8; //快速右转 
+  159   5                                      if(Get_HW_L==1)
+  160   5                                      {  
+  161   6                                        break; //跳出循环
+  162   6                                      }                                 
+  163   5                                  }
+  164   4                              } 
+  165   3      
+  166   3           }
+  167   2        }   
+  168   1      }
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =       545     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =    ------     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =         2     ------
+  hconst size          =    ------     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

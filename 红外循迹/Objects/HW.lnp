@@ -1,0 +1,11 @@
+".\Objects\main.obj",
+".\Objects\delay.obj",
+".\Objects\motor.obj",
+".\Objects\timer.obj",
+".\Objects\uart1.obj",
+".\Objects\hw.obj",
+".\Objects\LED.obj" 
+TO ".\Objects\HW" 
+PRINT(".\Listings\HW.map") CASE 
+CLASSES (EDATA (0x0-0xFFF), 
+HDATA (0x0-0xFFF)) 

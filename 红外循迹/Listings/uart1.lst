@@ -1,0 +1,102 @@
+C251 COMPILER V5.60.0,  uart1                                                              30/07/26  17:05:14  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE uart1
+OBJECT MODULE PLACED IN .\Objects\uart1.obj
+COMPILER INVOKED BY: C:\Keil_v5\C251\BIN\C251.EXE HARDWARE\src\uart1.c INTR2 BROWSE INCDIR(.\HARDWARE\inc) DEBUG PRINT(.
+                    -\Listings\uart1.lst) TABS(2) OBJECT(.\Objects\uart1.obj) 
+
+stmt  level    source
+
+    1          #include "uart1.h" 
+    2          #include "delay.h" 
+    3          
+    4          
+    5          bit B_TX1_Busy; //发送忙标志
+    6          
+    7          
+    8          void Uart1_Init(void)
+    9          {  
+   10   1        P3M1 &= 0xFC; P3M0 &= 0xFC;                   //设置P3.0 ,P3.1为准双向口  
+   11   1        
+   12   1        PCON &= 0x3f;   //波特率不倍速，串行口工作方式由SM0、SM1决定
+   13   1        SCON = 0x50;    //8位数据,可变波特率，启动串行接收器
+   14   1        AUXR |= 0x40;   //定时器1时钟为Fosc,即1T
+   15   1        AUXR &= 0xfe;   //串口1选择定时器1为波特率发生器
+   16   1        TMOD &= 0x0f;   //清除定时器1模式位
+   17   1        TMOD |= 0x20;   //设定定时器1为8位自动重装方式
+   18   1        TL1 = 0xB2;     //设定定时初值
+   19   1        TH1 = 0xB2;     //设定定时器重装值
+   20   1        ET1 = 0;        //禁止定时器1中断
+   21   1        TR1 = 1;        //启动定时器1
+   22   1        ES = 1;         // 串口1中断打开 
+   23   1        
+   24   1        EA = 1;               //总中断打开 
+   25   1        
+   26   1        delay_ms(100);
+   27   1      }
+   28          
+   29          
+   30          {
+*** ERROR C25 IN LINE 30 OF HARDWARE\src\uart1.c: syntax error near '{'
+   31              ES = 0;                     // 串口1中断关闭
+*** ERROR C53 IN LINE 31 OF HARDWARE\src\uart1.c: redefinition of 'ES': different basic types
+   32              if (RI)                     //串行接收到停止位的中间时刻时，该位置1
+*** ERROR C25 IN LINE 32 OF HARDWARE\src\uart1.c: syntax error near 'if'
+   33             {
+*** ERROR C103 IN LINE 33 OF HARDWARE\src\uart1.c: 'RI': illegal function definition (missing ';' ?)
+   34                RI = 0;                 //清除RI位 （该位必须软件清零）SBUF; 
+   35                program_automatic_update();       
+   36             }
+   37             if (TI)                    //在停止位开始发送时，该位置1
+   38             {
+   39                TI = 0;                 //清除TI位（该位必须软件清零） 
+   40                B_TX1_Busy = 0;
+   41             }
+   42             ES =  1;                   // 串口1中断打开
+   43          }
+   44          
+   45          //void PrintString1(unsigned char *puts)
+   46          //{
+   47          //    for (; *puts != 0;  puts++)     //遇到停止符0结束
+   48          //    {
+   49          //        SBUF = *puts;
+   50          //        B_TX1_Busy = 1;
+   51          //        while(B_TX1_Busy);
+   52          //    }
+   53          //}
+   54          
+C251 COMPILER V5.60.0,  uart1                                                              30/07/26  17:05:14  PAGE 2   
+
+   55          
+   56          void program_automatic_update(void)
+   57          {
+   58              static unsigned char recv_cnt = 0;
+   59              if (SBUF == 0xAF)
+   60              {
+   61                  if (++recv_cnt >= 5)
+   62                  {
+   63                      recv_cnt = 0;
+   64                      IAP_CONTR = 0x60;   //触发软件复位，从ISP开始执行
+   65                  }
+   66              }
+   67              else
+   68              {
+   69                  recv_cnt = 0;
+   70              }
+   71          }
+   72          
+   73          
+   74          
+   75          
+   76          
+   77          
+   78          
+   79          
+   80          
+   81          
+   82          
+   83          
+   84          
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  4 ERROR(S)

@@ -1,0 +1,68 @@
+C251 COMPILER V5.60.0,  delay                                                              30/07/26  17:05:13  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE delay
+OBJECT MODULE PLACED IN .\Objects\delay.obj
+COMPILER INVOKED BY: C:\Keil_v5\C251\BIN\C251.EXE HARDWARE\src\delay.c INTR2 BROWSE INCDIR(.\HARDWARE\inc) DEBUG PRINT(.
+                    -\Listings\delay.lst) TABS(2) OBJECT(.\Objects\delay.obj) 
+
+stmt  level    source
+
+    1          #define MAIN_Fosc        24000000UL   //定义主时钟 
+    2          
+    3          void delay_ms(unsigned int ms)
+    4          {
+    5   1          unsigned int  i;
+    6   1          do{
+    7   2              i = MAIN_Fosc / 6000;
+    8   2              while(--i);   //6T per loop
+    9   2            }while(--ms);
+   10   1      }
+   11          void Delay100ms(void)   //@24.000MHz
+   12          {
+   13   1        unsigned char i, j, k;
+   14   1      
+   15   1        _nop_();
+*** WARNING C140 IN LINE 15 OF HARDWARE\src\delay.c: '_nop_' undefined; assuming 'extern int _nop_()'
+   16   1        _nop_();
+   17   1        i = 13;
+   18   1        j = 45;
+   19   1        k = 214;
+   20   1        do
+   21   1        {
+   22   2          do
+   23   2          {
+   24   3            while (--k);
+   25   3          } while (--j);
+   26   2        } while (--i);
+   27   1      }
+   28          
+   29          
+   30          
+   31          
+   32          
+   33          
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =        60     ------
+  ecode size           =    ------     ------
+  data size            =    ------     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =    ------     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =    ------     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

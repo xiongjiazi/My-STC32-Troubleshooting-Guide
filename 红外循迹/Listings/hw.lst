@@ -1,0 +1,117 @@
+C251 COMPILER V5.60.0,  hw                                                                 30/07/26  17:05:14  PAGE 1   
+
+
+C251 COMPILER V5.60.0, COMPILATION OF MODULE hw
+OBJECT MODULE PLACED IN .\Objects\hw.obj
+COMPILER INVOKED BY: C:\Keil_v5\C251\BIN\C251.EXE HARDWARE\src\hw.c INTR2 BROWSE INCDIR(.\HARDWARE\inc) DEBUG PRINT(.\Li
+                    -stings\hw.lst) TABS(2) OBJECT(.\Objects\hw.obj) 
+
+stmt  level    source
+
+    1          #include "hw.h"  
+    2          #include "motor.h" 
+    3          
+    4          uint8 Car_State_number = 0; //小车状态值
+    5          
+    6          void HW_Init_Port(void)
+    7          {
+    8   1        
+    9   1          P0M0 = 0x00;        
+   10   1          P0M0 = 0x00;  //0100 0000 P0.6高阻输入
+   11   1      
+   12   1        
+   13   1          P4M0 = 0x00;        
+   14   1          P4M1 = 0x00;  //1000 0000 P4.7高阻输入
+   15   1        
+   16   1        
+   17   1          P3M0 = 0x00;        
+   18   1          P3M0 = 0x00;   //0000 1100 P3.2/3.3高阻输入
+   19   1      
+   20   1        Get_HW_MR=1;
+   21   1        Get_HW_ML=1;
+   22   1        Get_HW_R=1;
+   23   1        Get_HW_L=1 ;
+   24   1                
+   25   1              
+   26   1      }
+   27          
+   28          void Adjust_Pwm_data(void)
+   29          {
+   30   1          switch(Car_State_number)
+   31   1          {
+   32   2            case 1:  Car_Forword(15);break;
+   33   2            case 2:  Car_Forword(5);break;
+   34   2            
+   35   2            case 3:  Car_Turn_Left(50);break;
+   36   2            case 4:  Car_Turn_Left(80);break;
+   37   2            
+   38   2            case 5:  Car_Turn_Right(50);break; 
+   39   2            case 6:  Car_Turn_Right(80);break; 
+   40   2          
+   41   2            case 7:  Car_Stop();break;
+   42   2            case 8:  Car_Turn_Right1(85);break; 
+   43   2            
+   44   2            default :Car_Stop(); break;
+   45   2          } 
+   46   1      }
+   47          
+   48          
+   49          
+   50          
+   51          
+   52          
+   53          
+   54          
+   55          
+   56          
+   57          
+   58          
+C251 COMPILER V5.60.0,  hw                                                                 30/07/26  17:05:14  PAGE 2   
+
+   59          
+   60          
+   61          
+   62          
+   63          
+   64          
+   65          
+   66          
+   67          
+   68          
+   69          
+   70          
+   71          
+   72          
+   73          
+   74          
+   75          
+   76          
+   77          
+   78          
+   79          
+   80          
+   81          
+
+
+Module Information          Static   Overlayable
+------------------------------------------------
+  code size            =       107     ------
+  ecode size           =    ------     ------
+  data size            =         1     ------
+  idata size           =    ------     ------
+  pdata size           =    ------     ------
+  xdata size           =    ------     ------
+  xdata-const size     =    ------     ------
+  edata size           =    ------     ------
+  bit size             =    ------     ------
+  ebit size            =    ------     ------
+  bitaddressable size  =    ------     ------
+  ebitaddressable size =    ------     ------
+  far data size        =    ------     ------
+  huge data size       =    ------     ------
+  const size           =    ------     ------
+  hconst size          =    ------     ------
+End of Module Information.
+
+
+C251 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
