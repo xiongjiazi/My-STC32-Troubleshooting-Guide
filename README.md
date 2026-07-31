@@ -1,35 +1,38 @@
-# STC32 Embedded Mobile Robot Platform
+## 项目概述
+
+本项目是一套基于 **STC32G12K128 微控制器**开发的工厂货运机器人原型机。
+
+该平台主要用于学习和实践嵌入式硬件系统开发流程，涵盖主控系统、电机驱动、传感器采集以及外围功能电路设计。项目开发过程中重点关注硬件系统的稳定性、模块之间的协同工作以及实际调试过程中的问题分析。
 
 
-## Overview
+当前版本集成的主要功能模块包括：
 
-This project is a self-developed four-wheel mobile robot platform based on the STC32G12K128 microcontroller.
-
-The purpose of this project is to build a complete embedded hardware system, covering circuit design, module integration, hardware debugging and functional verification.
-
-The first version of the platform integrates multiple hardware modules, including power management, motor drive, sensor acquisition and human-machine interaction circuits.
-
-
-The current system includes:
-
-- STC32G12K128 MCU control unit
-- Four-wheel motor drive system
-- Infrared line tracking module
-- Ultrasonic obstacle detection module
-- Buzzer alarm circuit
-- White LED lighting circuit
-- ADC-based voltage monitoring circuit
+- **STC32G12K128 主控系统**
+- **四路电机驱动系统**
+- **红外循迹检测模块**
+- **超声波距离检测模块**
+- **蜂鸣器状态提示电路**
+- **白色 LED 照明电路**
+- **ADC 电压检测电路**
 
 
-During the development process, attention was paid to hardware reliability and practical debugging.
+在项目开发过程中，主要围绕以下工程内容展开：
 
-The project involves:
-
-- Power supply circuit design and verification
-- Peripheral circuit integration
-- Motor driver debugging
-- Sensor signal acquisition
-- Hardware troubleshooting and optimization
+- 电源供电电路设计与功能验证；
+- MCU 外围电路设计与模块集成；
+- 电机驱动电路调试与运行测试；
+- 传感器信号采集与功能验证；
+- 硬件异常问题定位与优化。
 
 
-This repository records the development process, circuit design considerations and debugging experience of the robot platform.
+本仓库记录该移动机器人平台从硬件设计、模块调试到功能验证过程中的相关内容，包括：
+
+- 电路设计思路；
+- 元器件选型记录；
+- PCB 设计注意事项；
+- 硬件调试过程；
+- 问题分析与解决方案；
+- 后续版本功能扩展规划。
+
+
+通过该项目，希望建立对嵌入式硬件系统开发流程的完整理解，包括从电路设计、硬件集成到实际调试验证的工程实践经验。
