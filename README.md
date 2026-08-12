@@ -52,8 +52,10 @@ MCU主要负责包含配合外部传感器完成信号采集，利用PWM 信号�
 1. [14500锂电电芯(3.7V 800mAh)]( https://e.tb.cn/h.87rSYtiq2mgQkz9?tk=14wqTZc1x00)
 2. [L7805CV TO‑220线性稳压器](https://item.szlcsc.com/113118.html)
 3. [H型带针散热片 15.5×10.5×24mm](https://item.szlcsc.com/mro/110148.html?redirect_source=item)
-4. [D1防反接二极管](https://item.szlcsc.com/387456.html)[C1/C2 100μF滤波电容](https://item.szlcsc.com/20213.html)
-[R5 10kΩ](https://item.szlcsc.com/401616.html)[LED1电源指示灯](https://item.szlcsc.com/100985.html)
+4. [D1防反接二极管](https://item.szlcsc.com/387456.html)
+[C1/C2 100μF滤波电容](https://item.szlcsc.com/20213.html)
+[R5 10kΩ](https://item.szlcsc.com/401616.html)
+[LED1电源指示灯](https://item.szlcsc.com/100985.html)
 
 ---
 
