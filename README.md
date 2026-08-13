@@ -15,7 +15,7 @@ ps：该项目基于嘉立创EDA环境完成，包含的原理图以及PCB文件
 文件:`工厂货运机器人原型机_第一版.eprj2`。
 
 ## 系统架构
-![完整原理图](./Schematic%20diagram%20and%20PCB/schematic_full.png)
+![系统架构](./System%20architecture.png)
 
 
 ## 硬件设计
